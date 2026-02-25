@@ -4,17 +4,20 @@ import axios from "axios"
 import { getMyToken } from "../_actions/getMyToken"
 import { jwtDecode } from 'jwt-decode';
 
-export async function getUserOrder (){
-
-    const token = await getMyToken()
-
-    interface MyToken {
-  id: string;
+interface MyToken {
+  id: string
 }
 
-const userData = jwtDecode<MyToken>(token);
+export async function getUserOrder() {
+  const token = await getMyToken()
 
-    const {data} = await axios.get(`https://ecommerce.routemisr.com/api/v1/order/user/${userData.id}` )
-return data
+  if (!token) return null
 
+  const userData = jwtDecode<MyToken>(token)
+
+  const { data } = await axios.get(
+    `https://ecommerce.routemisr.com/api/v1/order/user/${userData.id}`
+  )
+
+  return data
 }
