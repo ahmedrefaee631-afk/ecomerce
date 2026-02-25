@@ -21,7 +21,8 @@ export default function PaymentPage() {
   
   if (!context) return null
 
-  const { cartId, setNumOfCartItems, setCartData } = context
+  // destructure values from context (لاحظ الحروف الصغيرة)
+  const { cartId, setnumOfCartItems, setcartData } = context
 
   const { register, handleSubmit, watch } = useForm({
     defaultValues: {
@@ -46,24 +47,21 @@ export default function PaymentPage() {
     if (value.type === "cash") {
       try {
         const res = await createCashOrder(cartId, userData)
-        setNumOfCartItems(0)
-        setCartData(null)
+        setnumOfCartItems(0) // تم تعديل الحروف
+        setcartData(null)     // تم تعديل الحروف
         toast.success("Order created successfully!", { position: "top-center" })
         setTimeout(() => router.push('/allorders'), 2000)
       } catch (error) {
         toast.error("Failed to create order")
       }
     } else {
-
+      try {
         const res = await createVisaOrder(cartId, userData)
-
         window.open(res.session.url)
-              
-        
-
-        
-      
         toast.info("Online payment is coming soon")
+      } catch (error) {
+        toast.error("Failed to create online payment")
+      }
     }
   }
 
