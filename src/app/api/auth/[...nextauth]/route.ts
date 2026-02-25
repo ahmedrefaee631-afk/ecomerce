@@ -79,6 +79,5 @@ export const authOptions: AuthOptions = {
   pages: { signIn: "/auth/signin" },
 }
 
-export default NextAuth(authOptions)
 const handler = NextAuth(authOptions)
 export {handler as GET , handler as POST}
