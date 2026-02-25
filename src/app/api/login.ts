@@ -12,8 +12,12 @@ import { toast } from "sonner";
       console.log(res.data.token)
 
       return true;
-    } catch (error) {
-      toast.error(error.response.data.message,{position:"top-center"});
-      return null
     } 
+    catch (error: any) {
+  toast.error(
+    error?.response?.data?.message || "Something went wrong",
+    { position: "top-center" }
+  );
+  return null;
+}
   };
