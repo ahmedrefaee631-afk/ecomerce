@@ -54,6 +54,7 @@ const onSubmit = async (data: RegisterType) => {
             <Controller
               key={index}
               name={name as "password" | "name" | "email" | "Repassword" | "phone"}
+
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
