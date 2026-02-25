@@ -8,7 +8,11 @@ export async function getUserOrder (){
 
     const token = await getMyToken()
 
-    const userData = jwtDecode(token)
+    interface MyToken {
+  id: string;
+}
+
+const userData = jwtDecode<MyToken>(token);
 
     const {data} = await axios.get(`https://ecommerce.routemisr.com/api/v1/order/user/${userData.id}` )
 return data
