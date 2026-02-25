@@ -53,7 +53,7 @@ const onSubmit = async (data: RegisterType) => {
           {registerFormInput.map(({ name, placeholder, label }, index) => (
             <Controller
               key={index}
-name={name as "password" | "name" | "email" | "Repassword" | "phone"}
+              name={name as "password" | "name" | "email" | "Repassword" | "phone"}
               control={control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>

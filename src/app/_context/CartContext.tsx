@@ -1,35 +1,54 @@
+"use client";
+
 import React, { useState, createContext, useEffect } from "react";
 import { getUserCart } from "../_actions/getCartData";
 
-export const cartContext = createContext({});
+/* ================== Types ================== */
+
+interface CartContextType {
+  cartData: any;
+  cartId: any;
+  numOfCartItems: number;
+  setcartData: React.Dispatch<React.SetStateAction<any>>;
+  setnumOfCartItems: React.Dispatch<React.SetStateAction<number>>;
+}
+
+/* ================== Context ================== */
+
+export const cartContext = createContext<CartContextType>({
+  cartData: null,
+  cartId: null,
+  numOfCartItems: 0,
+  setcartData: () => {},
+  setnumOfCartItems: () => {},
+});
+
+/* ================== Provider ================== */
 
 export default function CartContextprovider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  
-    const [cartData, setcartData] = useState(null);
-  const [numOfCartItems, setnumOfCartItems] = useState(0);
-  const [cartId, setcartId] = useState(null);
+  const [cartData, setcartData] = useState<any>(null);
+  const [numOfCartItems, setnumOfCartItems] = useState<number>(0);
+  const [cartId, setcartId] = useState<any>(null);
 
-async function getData(){
-   const userDaraCart = await getUserCart()
+  async function getData() {
+    try {
+      const userDaraCart = await getUserCart();
 
-console.log(userDaraCart);
-setcartData(userDaraCart.data)
+      setcartData(userDaraCart?.data || null);
+      setnumOfCartItems(userDaraCart?.numOfCartItems || 0);
+      setcartId(userDaraCart?.cartId || null);
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+    }
+  }
 
-setnumOfCartItems(userDaraCart.numOfCartItems)
-
-setcartId(userDaraCart.cartId)
-
-}
- 
-
-useEffect(function(){
-    getData()
-},[])
-
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <cartContext.Provider
